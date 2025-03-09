@@ -67,8 +67,8 @@ func main() {
 	<-stopChan
 	log.Println("Shutting down server...")
 
-	ctx, canсel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer canсel()
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
 
 	if err := server.Shutdown(ctx); err != nil {
 		log.Fatalf("Server forced to shutdown: %v", err)
