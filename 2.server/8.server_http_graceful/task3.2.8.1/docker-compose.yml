@@ -1,0 +1,7 @@
+services:
+  geo_service:
+    build: .
+    environment:
+      - DADATA_API_KEY=9c667615626123e3c70123efa6ca12e53ae94e06
+    network_mode: "host"
+    restart: always
