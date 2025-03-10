@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -54,12 +55,17 @@ func main() {
 		WriteTimeout: 10 * time.Second,
 	}
 
+	listner, err := net.Listen("tcp", server.Addr)
+	if err != nil {
+		log.Fatalf("Error create listner: %v", err)
+	}
+
 	stopChan := make(chan os.Signal, 1)
 	signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
 		log.Println("Server started on :8080")
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		if err := server.Serve(listner); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("Server error: %v", err)
 		}
 	}()
